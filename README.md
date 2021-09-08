@@ -22,3 +22,7 @@
 
 ![진짜 파이널 mp4_000109066](https://user-images.githubusercontent.com/61714078/132454466-30fcc996-7464-445f-bf1e-0c1f57bd0474.png)
 
+# 영상 링크
+
+*https://drive.google.com/file/d/15tkXkF9DEZuOWmpVAS-8xu5ngEm8In8G/view?usp=sharing
+
