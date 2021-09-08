@@ -7,7 +7,7 @@
 ![진짜 파이널 mp4_000031833](https://user-images.githubusercontent.com/61714078/132454244-37af478b-cf39-4de8-963e-e43ab937f23b.png)
 
 # 문제점&해결
- *아무 문제가 없소이다.
+ *문제는 즉각 피드백으로 해결합니다.
 
 ![진짜 파이널 mp4_000051233](https://user-images.githubusercontent.com/61714078/132454373-2143100a-a1c4-462b-af5e-d94f2ee1c9ac.png)
 
