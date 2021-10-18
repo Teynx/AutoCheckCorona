@@ -39,3 +39,8 @@
 
 *https://drive.google.com/file/d/15tkXkF9DEZuOWmpVAS-8xu5ngEm8In8G/view?usp=sharing
 
+# 사용법 참조
+ *호스팅 서비스와 연동을 추천합니다.
+ 
+ *크롬 드라이버와 세팅 파일 위치는 하드코딩 되어 있으니, 사용을 원하시면 개인 메일로 문의주세요.
+
