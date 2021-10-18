@@ -39,7 +39,7 @@
 # 영상 링크
  *구글드라이브 링크입니다.
 
-*https://drive.google.com/file/d/15tkXkF9DEZuOWmpVAS-8xu5ngEm8In8G/view?usp=sharing
+*개인정보 보호 차원에서 링크를 삭제하였습니다.
 
 
 # 사용법 참조
