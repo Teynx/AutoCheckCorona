@@ -1,7 +1,7 @@
 # 중요 업데이트(2021-10-19)
  ***보안 키패드 관련 로직을 추가하였습니다. 키패드를 우회하여 동작합니다.**
  
- *관련 구문을 참조하실분은 [바로이동](https://github.com/Taehyun06-Dev/AutoCheckCorona/blob/master/src/main/java/ui/WebManager.java)
+ *관련 구문을 참조하실분은 [바로이동](https://github.com/Taehyun06-Dev/AutoCheckCorona/blob/master/src/main/java/ui/WebManager.java) (가상키보드 핸들러 주석 참고)
  
  *날씨 관련 기능을 제거하여 성능을 향상하였습니다.
  
