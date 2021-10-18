@@ -11,9 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -24,16 +23,14 @@ public class WebManager implements Runnable{
     private JavascriptExecutor js;
     private Vault vault;
     private int count;
+    private Map<String, String> keyboardmap = new HashMap<>();
 
     public WebManager(){
         vault = new Vault();
     }
 
     public Boolean isActive(){
-        if(driver != null){
-            return true;
-        }
-        return false;
+        return driver != null;
     }
 
     public void stop(){
@@ -77,9 +74,12 @@ public class WebManager implements Runnable{
         }
     }
 
-    private Integer ReadVal(String xpath){
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
-        return Integer.parseInt(driver.findElement(By.xpath(xpath)).getText());
+
+    private void KeyBoardMapSet(String xpath){
+        String result = driver.findElement(By.xpath(xpath)).getAttribute("aria-label");
+        if(!(result.equalsIgnoreCase("빈칸"))){
+            keyboardmap.put(result, xpath);
+        }
     }
 
     @Override
@@ -103,20 +103,23 @@ public class WebManager implements Runnable{
             vault.sendMsg("INFO", "현재 접속중: "+splits[2]);
             vault.AddValue();
             try {
+                keyboardmap.clear();
+
+                //학교 및 기본 정보 입력
                 driver.get("https://hcs.eduro.go.kr/#/loginHome");
                 ClickElement("btnConfirm2", false);
                 Thread.sleep(500);
                 ClickElementX("//*[@id=\"WriteInfoForm\"]/table/tbody/tr[1]/td/button", false);
                 wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[1]/td/select")));
                 Select objSelect = new Select(driver.findElement(By.xpath("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[1]/td/select")));
-                objSelect.selectByVisibleText("세종특별자치시");
+                objSelect.selectByVisibleText(splits[3]);
                 wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[2]/td/select")));
                 Select objSelect2 = new Select(driver.findElement(By.xpath("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[2]/td/select")));
-                objSelect2.selectByVisibleText("고등학교");
-                EnterTextX("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[3]/td[1]/input", "세종대성고", true);
+                objSelect2.selectByVisibleText(splits[4]);
+                EnterTextX("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[3]/td[1]/input", splits[5], true);
                 Thread.sleep(500);
                 ClickElementX("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/table/tbody/tr[3]/td[2]/button", false);
-                ClickElementX("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/ul/li/p/a", false);
+                ClickElementX("//*[@id=\"softBoardListLayer\"]/div[2]/div[1]/ul/li/a/p/a", false);
                 Thread.sleep(500);
                 ClickElementX("//*[@id=\"softBoardListLayer\"]/div[2]/div[2]/input", false);
                 Thread.sleep(500);
@@ -124,28 +127,43 @@ public class WebManager implements Runnable{
                 EnterTextX("//*[@id=\"WriteInfoForm\"]/table/tbody/tr[3]/td/input", splits[0], false);
                 Thread.sleep(500);
                 ClickElement("btnConfirm", false);
-                Thread.sleep(800);
-                EnterTextX("//*[@id=\"WriteInfoForm\"]/table/tbody/tr/td/input", splits[1], false);
-                ClickElement("btnConfirm", false);
-                for(int i = 0; i < 6; i++){
-                    try{
-                        ClickElementX("//*[@id=\"container\"]/div[2]/section[2]/div[2]/ul/li/a/span[1]", false);
-                        break;
-                    }catch (Exception e){
-                        Thread.sleep(800);
-                    }
+                Thread.sleep(500);
+
+                //가상키보드 핸들러
+                ClickElementX("//*[@id=\"password\"]", false);
+                Thread.sleep(500);
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[5]/a[1]");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[5]/a[2]");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[5]/a[3]");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[5]/a[4]");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[6]/a");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[7]/a");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[8]/a[1]");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[8]/a[2]");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[8]/a[3]");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[8]/a[4]");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[9]/a");
+                KeyBoardMapSet("//*[@id=\"password_mainDiv\"]/div[4]/a");
+                for(int i = 0; i < splits[1].length(); i++){
+                    Thread.sleep(900);
+                    ClickElementX(keyboardmap.get(String.valueOf(splits[1].charAt(i))), false);
                 }
+                Thread.sleep(1800);
+                ClickElement("btnConfirm", false);
                 Thread.sleep(500);
+                ClickElementX("//*[@id=\"container\"]/div/section[2]/div[2]/ul/li/a/em", false);
+                Thread.sleep(500);
+
                 //세부사항 체크
-                ClickElementX("//*[@id=\"container\"]/div[2]/div/div[2]/div[2]/dl[1]/dd/ul/li[1]/label", true);
-                ClickElementX("//*[@id=\"container\"]/div[2]/div/div[2]/div[2]/dl[2]/dd/ul/li[1]/label", true);
-                ClickElementX("//*[@id=\"container\"]/div[2]/div/div[2]/div[2]/dl[3]/dd/ul/li[1]/label", true);
-                ClickElementX("//*[@id=\"container\"]/div[2]/div/div[2]/div[2]/dl[4]/dd/ul/li[1]/label", true);
-                ClickElementX("//*[@id=\"container\"]/div[2]/div/div[2]/div[2]/dl[5]/dd/ul/li[1]/label", true);
+                ClickElementX("//*[@id=\"survey_q1a1\"]", true);
+                Thread.sleep(500);
+                ClickElementX("//*[@id=\"survey_q2a1\"]", true);
+                Thread.sleep(500);
+                ClickElementX("//*[@id=\"survey_q3a1\"]", true);
                 Thread.sleep(500);
                 ClickElement("btnConfirm", false);
-                wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"container\"]/div[2]/div/div[2]/p")));
-                if(driver.findElement(By.xpath("//*[@id=\"container\"]/div[2]/div/div[2]/p")).getText().contains("코로나19 예방을 위한 자가진단 설문결과 의심 증상에 해당되는 항목이 없어 등교가 가능함을 안내드립니다.")){
+                wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"container\"]/div/div[2]/div[2]/p")));
+                if(driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/div[2]/p")).getText().contains("등교가 가능함을 안내드립니다.")){
                     vault.sendMsg("INFO", "증상 정상처리 되었습니다: "+splits[2]);
                     count++;
                 }else{
@@ -166,7 +184,6 @@ public class WebManager implements Runnable{
                 }
                 driver.quit();
                 driver = null;
-                continue;
             }
         }
         int size = new DataStorage().getUrlList().size();
@@ -177,39 +194,6 @@ public class WebManager implements Runnable{
 
         }else{
             DiscordHandler.sendMessage("발견된 오류가 없습니다 :)");
-        }
-        vault.sendMsg("INFO", "자가진단 작업이 완료되었습니다.");
-        vault.sendMsg("INF0", "날씨 정보 조회중...");
-        vault.SetChart(false);
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 15);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EC%84%B8%EC%A2%85+%EC%98%A4%EB%8A%98+%EA%B0%95%EC%88%98%ED%99%95%EB%A5%A0&oquery=%EC%84%B8%EC%A2%85+%EC%98%A4%EB%8A%98+%EB%82%A0%EC%94%A8&tqi=U18HUdprvmsssTFR%2BBdssssssU4-004313");
-        try {
-            Thread.sleep(520);
-        } catch (InterruptedException e) {
-            vault.sendMsg("WARN", "날씨 정보 조회중 에러입니다.");
-        }
-        List<Integer> vallist = new ArrayList<>();
-        vallist.add(ReadVal("//*[@id=\"main_pack\"]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div[3]/ul/li[1]/dl/dd[1]/span[1]"));
-        vallist.add(ReadVal("//*[@id=\"main_pack\"]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div[3]/ul/li[2]/dl/dd[1]/span[1]"));
-        vallist.add(ReadVal("//*[@id=\"main_pack\"]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div[3]/ul/li[3]/dl/dd[1]/span[1]"));
-        vallist.add(ReadVal("//*[@id=\"main_pack\"]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div[3]/ul/li[4]/dl/dd[1]/span[1]"));
-        vallist.add(ReadVal("//*[@id=\"main_pack\"]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div[3]/ul/li[5]/dl/dd[1]/span[1]"));
-        vallist.add(ReadVal("//*[@id=\"main_pack\"]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div[3]/ul/li[6]/dl/dd[1]/span[1]"));
-        vallist.add(ReadVal("//*[@id=\"main_pack\"]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div[3]/ul/li[7]/dl/dd[1]/span[1]"));
-        vallist.add(ReadVal("//*[@id=\"main_pack\"]/div[1]/div[2]/div[2]/div[1]/div[3]/div[3]/div[3]/ul/li[8]/dl/dd[1]/span[1]"));
-        int sum = 0;
-        for(Integer e : vallist){
-            sum += e;
-        }
-        int average = sum / vallist.size();
-        int max = Collections.max(vallist);
-        vault.sendMsg("INFO", "[강수] 평균: "+average+"%, 최고: "+max+"%");
-        DiscordHandler.sendMessage("[강수] 평균: "+average+"%, 최고: "+max+"%");
-        if(average >= 50||max >= 50){
-            vault.sendMsg("INFO", "우산을 챙기세요.");
-            DiscordHandler.sendMessage("우산을 챙기세요.");
         }
         driver.quit();
         driver = null;

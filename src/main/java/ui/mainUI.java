@@ -9,15 +9,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.imageio.ImageIO;
-
 public class mainUI extends Application {
 
     double x, y = 0;
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
-        stage.setTitle("자동 자가진단 체크 v2.0");
+        stage.setTitle("자동 자가진단 체크 v3.0");
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/fxml/icon.png")));
         stage.initStyle(StageStyle.DECORATED);
         root.setOnMousePressed(event -> {

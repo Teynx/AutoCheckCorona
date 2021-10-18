@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import javax.security.auth.login.LoginException;
 import java.text.SimpleDateFormat;
@@ -40,14 +39,14 @@ public class DiscordHandler {
 
 
     public void activate(){
-        JDABuilder jb = JDABuilder.createDefault("NzU0NzA3NjAyMjkzNjUzNTY2.X14qOg.WmqooR2La85tEiAlP7iTHkpa3tU");
+        JDABuilder jb = JDABuilder.createDefault(new DataStorage().getDiscordUrl());
         jb.setAutoReconnect(true);
         jb.setStatus(OnlineStatus.ONLINE);
         try {
             jda = jb.build();
             jda.awaitReady();
             jda.addEventListener(new DIscordMsgListener());
-            textChannel = jda.getTextChannelById("754709027715547199");
+            textChannel = jda.getTextChannelById(new DataStorage().getDiscordCode());
             new Vault().sendMsg("INFO", "디스코드 서비스가 활성화 되었습니다.");
         } catch (LoginException | InterruptedException e) {
             System.out.println(e.getMessage());
