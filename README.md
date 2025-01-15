@@ -12,17 +12,6 @@
 # AutoCheckCorona
 2020-21 자가진단 자동체크
 
-# 프로그램 계발계기
- *자가진단을 자동으로 하게 해봅시다.
-
-![진짜 파이널 mp4_000031833](https://user-images.githubusercontent.com/61714078/132454244-37af478b-cf39-4de8-963e-e43ab937f23b.png)
-
-# 문제점&해결
- *문제는 즉각 피드백으로 해결합니다.
-
-![진짜 파이널 mp4_000051233](https://user-images.githubusercontent.com/61714078/132454373-2143100a-a1c4-462b-af5e-d94f2ee1c9ac.png)
-
-
 # 작동 과정
  *이건 호스팅으로 돌리기때문에 내 컴퓨터는 잠자도 OK!
 
