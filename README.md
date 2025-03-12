@@ -12,13 +12,9 @@
 # AutoCheckCorona
 2020-21 자가진단 자동체크
 
-# 작동 과정 1
+# 작동 과정
 
 ![진짜 파이널 mp4_000075466](https://user-images.githubusercontent.com/61714078/132454410-86c32a34-02ff-4dab-b98e-85c69b6d7560.png)
-
-# 작동 과정 2
-
-![진짜 파이널 mp4_000087600](https://user-images.githubusercontent.com/61714078/132454444-3ddd8684-b52e-4cd2-9856-c7bb90b0bf2b.png)
 
 # 모바일 연동
  *무료 API인 디스코드로 서비스와 상호작용 가능합니다.
